@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ErsteAndroidApp</string>
+    <string name="hello_world_text">Auch den Text über "strings.xml" ändern</string>
+</resources>

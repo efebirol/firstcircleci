@@ -1,0 +1,29 @@
+version: 2    #We always start with the version.
+jobs:         #each jobs is a Build-Test-Deploy process (e. g. for building with "build")
+  build:
+    working_directory: ~/code   # where  the code will be git checkout (Info: only used for this job)
+    docker:
+      - image: circleci/android:api-25-alpha    #container images
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - run: echo "Checkout des Projektes"
+      - checkout                                #step checkout the code
+          
+
+      # - restore_cache:                                                                  #get cache if one is there
+      #     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+      # - run:
+      #     name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+      #     command: sudo chmod +x ./gradlew
+
+      - run:
+          name: Download Dependencies (mit Gradle)
+          command: ./gradlew androidDependencies                #getting project dependencies
+
+      # - save_cache:                                         #store the "androidDependencies" (good for performance)
+      #     name: Save Cache Step
+      #     paths:
+      #       - ~/.gradlew
+      #     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
