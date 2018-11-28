@@ -18,6 +18,12 @@ jobs:         #each jobs is a Build-Test-Deploy process (e. g. for building with
       #     name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
       #     command: sudo chmod +x ./gradlew
 
+      - run: |
+          echo Example with Multiple Commands
+          echo Gebe mehrere Zeile in Circleci Commandline aus
+          echo Hier mal 'pwd'
+          pwd
+
       - run:
           name: Download Dependencies (mit Gradle)
           command: ./gradlew androidDependencies                #getting project dependencies
