@@ -1,35 +1,43 @@
-version: 2    #We always start with the version.
-jobs:         #each jobs is a Build-Test-Deploy process (e. g. for building with "build")
+#
+# Build configuration for Circle CI
+#
+
+version: 2
+jobs:
   build:
-    working_directory: ~/code   # where  the code will be git checkout (Info: only used for this job)
-    docker:
-      - image: circleci/android:api-25-alpha    #container images
-    environment:
-      JVM_OPTS: -Xmx3200m
+    machine:    # alternativ "docker"
+      enabled: true
+      image: circleci/openjdk:8-jdk-browsers    #"cirlceci/" im Pfad notwendig
+      # environment:
+        # Date format to be used in naming "yyyymmddHHMM"
+        # VERSION_DATE : $(date +%Y%m%d%k%M)
+        # APK_PATH: '/outputs/apk/app-debug.apk'
+
     steps:
-      - run: echo "Checkout des Projektes"
-      - checkout                                #step checkout the code
-          
-
-      # - restore_cache:                                                                  #get cache if one is there
-      #     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-
-      # - run:
-      #     name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-      #     command: sudo chmod +x ./gradlew
-
-      - run: |
-          echo Example with Multiple Commands
-          echo Gebe mehrere Zeile in Circleci Commandline aus
-          echo Hier mal 'pwd'
-          pwd
-
       - run:
-          name: Download Dependencies (mit Gradle)
-          command: ./gradlew androidDependencies                #getting project dependencies
+          name: Running tests
+          command: echo "make test"
 
-      # - save_cache:                                         #store the "androidDependencies" (good for performance)
-      #     name: Save Cache Step
-      #     paths:
-      #       - ~/.gradlew
-      #     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+dependencies:
+    pre:
+      # Update Android dependent SDK and tools
+      # That settings need to be synced with Android Studio build settings
+      - echo y | android update sdk --no-ui --all --filter tools,extra-android-m2repository,extra-android-support,android-25
+      - echo y | android update sdk --no-ui --all --filter build-tools-25.0.2
+
+test:
+    override:
+        - ./gradlew assembleDebug -PCIversionName=$APP_VERSION_NAME.$VERSION_DATE -PCIversionCode=$((APP_VERSION_CODE+1))
+        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+
+deployment:
+  development:
+    branch: master
+    commands:
+      # We want pass some information to shell script
+      #   1. Build location 
+      #   2. API token from environment variable (CircleCI dashboard)
+      #   3. Hockey App APP_ID
+      - ./scripts/deploy_hockeyapp.sh $CIRCLE_ARTIFACTS$APK_PATH $AWESOME_TOKEN $HOCKEYAPP_APP_ID
+
+
