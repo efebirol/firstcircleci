@@ -4,9 +4,9 @@
 version: 2
 jobs:
   build:
-    machine:    # alternativ "docker"
-      enabled: true
-      image: circleci/openjdk:8-jdk-browsers    #"cirlceci/" im Pfad notwendig, damit der Circlci Container "" gefunden wird
+    docker:    # alternativ "machine/docker" (machine is not working on CirleCi Free Account)
+      - image: circleci/openjdk:8-jdk-browsers    #"cirlceci/" im Pfad notwendig, damit der Circlci Container "" gefunden wird
+    #Environment werden auf dem entfernten Circleci gesetzt
     environment:
       # Date format to be used in naming "yyyymmddHHMM"
       VERSION_DATE : $(date +%Y%m%d%k%M)
