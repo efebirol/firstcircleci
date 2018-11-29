@@ -1,17 +1,16 @@
 #
 # Build configuration for Circle CI
 #
-
 version: 2
 jobs:
   build:
     machine:    # alternativ "docker"
       enabled: true
-      image: circleci/openjdk:8-jdk-browsers    #"cirlceci/" im Pfad notwendig
-      # environment:
-        # Date format to be used in naming "yyyymmddHHMM"
-        # VERSION_DATE : $(date +%Y%m%d%k%M)
-        # APK_PATH: '/outputs/apk/app-debug.apk'
+      image: circleci/openjdk:8-jdk-browsers    #"cirlceci/" im Pfad notwendig, damit der Circlci Container "" gefunden wird
+    environment:
+      # Date format to be used in naming "yyyymmddHHMM"
+      VERSION_DATE : $(date +%Y%m%d%k%M)
+      APK_PATH: '/outputs/apk/app-debug.apk'
 
     steps:
       - run:
@@ -40,4 +39,5 @@ deployment:
       #   3. Hockey App APP_ID
       - ./scripts/deploy_hockeyapp.sh $CIRCLE_ARTIFACTS$APK_PATH $AWESOME_TOKEN $HOCKEYAPP_APP_ID
 
+#$HOCKEYAPP_APP_ID
 
