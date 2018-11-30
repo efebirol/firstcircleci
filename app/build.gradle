@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 //hole die "realm-android"-Library als Dependency
 apply plugin: 'realm-android'
 
-apply plugin: 'java'
+// apply plugin: 'java'
 
 //Über Gradle Argument die Variablen weitergeben
 //-PCIversionName
