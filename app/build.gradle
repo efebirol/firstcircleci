@@ -9,10 +9,13 @@ apply plugin: 'realm-android'
 
 // apply plugin: 'java'
 
+//Liste alle Gradle Properties auf
+// println("-- build.gradle - Alle Properties des Projektes: \n"+project.properties)
+
 //Über Gradle Argument die Variablen weitergeben
 //-PCIversionName
-if(project.hasProperty("CIversionName")){
-    println("-- build.gradle - version Name: "+CIversionName)
+if(project.hasProperty("versionName")){
+    println("-- build.gradle - version Name: "+versionName)
 }
 else{
     println("-- build.gradle - KEINE CIversionName")

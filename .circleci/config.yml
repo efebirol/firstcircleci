@@ -18,8 +18,8 @@ jobs:
       - checkout
 
       #Wiederherstellung des Cache (von vorherigem Build) (?)
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      # - restore_cache:
+      #     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
       - run:
           name: Ausgabe environment Variablen
@@ -30,7 +30,7 @@ jobs:
       #     command: make test    #runs "make test" via Shell
 
       - run:
-          name: Gradle build mit dem Zwecke Circleci Variablen (aus config.yml) an Gradle weiterreichen 
+          name: Gradle build mit dem Zweck, Circleci Variablen (aus config.yml) an Gradle weiterreichen 
           command: ./gradlew
 
           
@@ -42,10 +42,10 @@ jobs:
             echo $APP_VERSION_NAME
 
       #Speichere Zustand in Cache (von nächstes Build) (?)
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      # - save_cache:
+      #     paths:
+      #       - ~/.gradle
+      #     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
       # - run:
       #     name: Run Tests
@@ -61,7 +61,8 @@ dependencies:
 
 test:
     override:
-        - ./gradlew assembleDebug -PCIversionName=$APP_VERSION_NAME.$VERSION_DATE -PCIversionCode=$((APP_VERSION_CODE+1))
+        #"-PCI" ist das Gradle system property. CI for Continous Integration (ToDo: Checkout https://github.com/paulbakker/configuration-example/blob/master/cnf/gradle/doc/BUILDING-GRADLE.md)
+        - ./gradlew assembleDebug -PCIversionName=$APP_VERSION_NAME.$VERSION_DATE -PCIversionCode=$((APP_VERSION_CODE+1))   
         - cp -r app/build/outputs $CIRCLE_ARTIFACTS
 
 deployment:
