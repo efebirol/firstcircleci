@@ -12,12 +12,18 @@ apply plugin: 'realm-android'
 //Über Gradle Argument die Variablen weitergeben
 //-PCIversionName
 if(project.hasProperty("CIversionName")){
-    println("-- build.gradle - Version name: "+CIversionName)
+    println("-- build.gradle - version Name: "+CIversionName)
+}
+else{
+    println("-- build.gradle - KEINE CIversionName")
 }
 
 //-PCIversionCode
 if(project.hasProperty("CIversionCode")){
-    println("-- build.gradle - Version code: "+CIversionCode)
+    println("-- build.gradle - version Code: "+CIversionCode)
+}
+else{
+    println("-- build.gradle - KEINE CIversionCode")
 }
 
 android {

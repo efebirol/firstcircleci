@@ -6,15 +6,20 @@ jobs:
   build:
     docker:    # alternativ "machine/docker" (machine is not working on CirleCi Free Account)
       # - image: circleci/openjdk:8-jdk-browsers    #"cirlceci/" im Pfad notwendig, damit der Circlci Container "" gefunden wird
-      - image: circleci/android:api-25-alpha    #container images
+      - image: circleci/android:api-28-alpha    #container images
     #Environment können lokal oder auch auf dem entfernten Circleci gesetzt
     environment:
       # Date format to be used in naming "yyyymmddHHMM" (Shellscripting Code)
       VERSION_DATE : $(date +%Y%m%d%k%M)
       APK_PATH: '/outputs/apk/app-debug.apk'
+      JVM_OPTS: -Xmx3200m
 
     steps:
       - checkout
+
+      #Wiederherstellung des Cache (von vorherigem Build) (?)
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
       - run:
           name: Ausgabe environment Variablen
@@ -28,12 +33,23 @@ jobs:
           name: Gradle build mit dem Zwecke Circleci Variablen (aus config.yml) an Gradle weiterreichen 
           command: ./gradlew
 
+          
       - run:
           name: Gebe die eigenen Variablen aus
           command: |
             echo $VERSION_DATE
             echo $APK_PATH
             echo $APP_VERSION_NAME
+
+      #Speichere Zustand in Cache (von nächstes Build) (?)
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+      # - run:
+      #     name: Run Tests
+      #     command: ./gradlew testDebug
 
 
 dependencies:
