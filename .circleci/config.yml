@@ -18,10 +18,11 @@ jobs:
           command: echo "make test"
 
       - run:
-          name: Gege die eigenen Variablen aus
+          name: Gebe die eigenen Variablen aus
           command: |
             echo $VERSION_DATE
             echo $APK_PATH
+            echo $APP_VERSION_NAME
 
 dependencies:
     pre:
