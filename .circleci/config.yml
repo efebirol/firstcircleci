@@ -6,7 +6,7 @@ jobs:
   build:
     docker:    # alternativ "machine/docker" (machine is not working on CirleCi Free Account)
       - image: circleci/openjdk:8-jdk-browsers    #"cirlceci/" im Pfad notwendig, damit der Circlci Container "" gefunden wird
-    #Environment werden auf dem entfernten Circleci gesetzt
+    #Environment können lokal oder auch auf dem entfernten Circleci gesetzt
     environment:
       # Date format to be used in naming "yyyymmddHHMM"
       VERSION_DATE : $(date +%Y%m%d%k%M)
@@ -16,6 +16,12 @@ jobs:
       - run:
           name: Running tests
           command: echo "make test"
+
+      - run:
+          name: Gege die eigenen Variablen aus
+          command: |
+            echo $VERSION_DATE
+            echo $APK_PATH
 
 dependencies:
     pre:
