@@ -7,8 +7,18 @@ apply plugin: 'kotlin-android-extensions'
 //hole die "realm-android"-Library als Dependency
 apply plugin: 'realm-android'
 
-//apply plugin: 'java'
+apply plugin: 'java'
 
+//Über Gradle Argument die Variablen weitergeben
+//-PCIversionName
+if(project.hasProperty("CIversionName")){
+    println("-- build.gradle - Version name: "+CIversionName)
+}
+
+//-PCIversionCode
+if(project.hasProperty("CIversionCode")){
+    println("-- build.gradle - Version code: "+CIversionCode)
+}
 
 android {
     compileSdkVersion 28

@@ -8,7 +8,7 @@ jobs:
       - image: circleci/openjdk:8-jdk-browsers    #"cirlceci/" im Pfad notwendig, damit der Circlci Container "" gefunden wird
     #Environment können lokal oder auch auf dem entfernten Circleci gesetzt
     environment:
-      # Date format to be used in naming "yyyymmddHHMM"
+      # Date format to be used in naming "yyyymmddHHMM" (Shellscripting Code)
       VERSION_DATE : $(date +%Y%m%d%k%M)
       APK_PATH: '/outputs/apk/app-debug.apk'
 
