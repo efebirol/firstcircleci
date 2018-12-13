@@ -7,27 +7,80 @@ apply plugin: 'kotlin-android-extensions'
 //hole die "realm-android"-Library als Dependency
 apply plugin: 'realm-android'
 
-// apply plugin: 'java'
+// apply plugin: 'java'1.3.11
+
 
 //Liste alle Gradle Properties auf
 // println("-- build.gradle - Alle Properties des Projektes: \n"+project.properties)
 
-//Über Gradle Argument die Variablen weitergeben
-//-PCIversionName
-if(project.hasProperty("versionName")){
-    println("-- build.gradle - version Name: "+versionName)
-}
-else{
-    println("-- build.gradle - KEINE CIversionName")
+//".ext" nötig, damit der Scope auch über das Gradle hinaus (z. B. Docker (?) ) verfügbar ist
+// project.ext{
+//     versionName = "9.9"
+//     versionCode = "5"
+// }
+
+//nach dem Builden wird "updateProjectInfo" ausgeführt (holt dann erst die Parameter)
+// project.afterEvaluate{
+//     preBuild.dependsOn updateProjectInfo
+// }
+
+
+// task myTask << {
+//     println ("-- build.gradle - myTask()");
+//     doLast() {
+//         println "-- build.gradle - myTask() - Ganze am Ende ausgeführt"
+//     }
+// }
+
+// "<<" wird als letztes ausgeführt
+// task runMyTask << {
+//     println 'Creating myTask' 
+// }
+
+// myTask.dependsOn runMyTask
+
+task updateProjectInfo
+{
+    println("-- build.gradle - task 'updateProjectInfo()' startet.)
+    
+    //Über Gradle Argument die Variablen weitergeben (.yml (Konfigdatei) -> .gradle (Builddatei) )
+    //Paramter (-P) versionDate
+    if(project.hasProperty("versionDate"))
+    {
+        println("-- build.gradle - versionName: "+versionName)
+    }
+    else{
+        println("-- build.gradle - KEINE versionName gefunden")
+        //throw new InvalidUserDataException("-- build.gradle - KEINE CIversionName gefunden")
+    }
+
+    //versionCode
+    if(project.hasProperty("versionCode"))
+    {
+        println("-- build.gradle - version Code: "+versionCode)
+    }
+    else{
+        println("-- build.gradle - KEINE versionCode gefunden")
+    }
+
+    if(project.hasProperty("testVariable"))
+    {
+        println("-- build.gradle - testVariable: "+testVariable)
+    }
+    else{
+        println("-- build.gradle - KEINE testVariable gefunden")
+    }
+
+    if(project.hasProperty("username")){
+        println("-- build.gradle - username Code: "+username)
+    }
+    else{
+        println("-- build.gradle - KEINE testVariable gefunden")
+    }
 }
 
-//-PCIversionCode
-if(project.hasProperty("CIversionCode")){
-    println("-- build.gradle - version Code: "+CIversionCode)
-}
-else{
-    println("-- build.gradle - KEINE CIversionCode")
-}
+
+project
 
 android {
     compileSdkVersion 28

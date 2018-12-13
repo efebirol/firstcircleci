@@ -10,9 +10,12 @@ jobs:
     #Environment können lokal oder auch auf dem entfernten Circleci gesetzt
     environment:
       # Date format to be used in naming "yyyymmddHHMM" (Shellscripting Code)
-      VERSION_DATE : $(date +%Y%m%d%k%M)
-      APK_PATH: '/outputs/apk/app-debug.apk'
       JVM_OPTS: -Xmx3200m
+      VERSION_DATE_LOCAL : 'someDateWithSyntax'
+      APK_PATH: '/outputs/apk/app-debug.apk'
+      APP_VERSION_CODE_LOCAL: '1'
+      TESTVARIABLE_LOCAL: 'myTestVariableValue'
+      VERSIONNAME_LOCAL: 'meineLokaleVersionName'
 
     steps:
       - checkout
@@ -35,7 +38,7 @@ jobs:
 
           
       - run:
-          name: Gebe die eigenen Variablen aus
+          name: Gebe die lokalen Variablen aus
           command: |
             echo $VERSION_DATE
             echo $APK_PATH
@@ -69,9 +72,12 @@ dependencies:
 
 test:
     override:
-        #"-PCI" ist das Gradle system property. CI for Continous Integration (ToDo: Checkout https://github.com/paulbakker/configuration-example/blob/master/cnf/gradle/doc/BUILDING-GRADLE.md)
-        - ./gradlew assembleDebug -PCIversionName=$APP_VERSION_NAME.$VERSION_DATE -PCIversionCode=$((APP_VERSION_CODE+1))   
-        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+        #"-P" ist das Gradle system property. CI for Continous Integration (ToDo: Checkout https://github.com/paulbakker/configuration-example/blob/master/cnf/gradle/doc/BUILDING-GRADLE.md)
+        # - ./gradlew assembleDebug -PtestVariable='TestVariableValue' -PtestVariable='TestVariableValue' -Pusername=user123 -Ppassword=userpass -PversionCode=$((APP_VERSION_CODE_LOCAL+1)) -PtestVariable='TestVariableValue'
+        - ./gradlew printSystem -PversionName=$VERSIONNAME_LOCAL -PtestVariable='TestVariableValue' -Pusername=user123 -Ppassword=userpass -PversionCode=$((APP_VERSION_CODE_LOCAL+1)) -PtestVariable='TestVariableValue'
+        
+        # kopiere es in einen anderen gewünschten Pfad
+        # - cp -r app/build/outputs $CIRCLE_ARTIFACTS
 
 deployment:
   development:
