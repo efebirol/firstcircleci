@@ -39,14 +39,15 @@ jobs:
           command: |
             echo $VERSION_DATE
             echo $APK_PATH
-            echo $APP_VERSION_NAME
-            echo $APP_VERSION_CODE
+
           
       - run:
           name: Gebe die Variablen aus entfernten Circleci aus (gehörten angelegt)
           command: |
-            echo $APK_PATH
-            echo $APP_VERSION_NAME
+            echo $APK_PATH_REMOTE
+            echo $VERSION_DATE_REMOTE
+            echo $APP_VERSION_NAME_REMOTE
+            echo $APP_VERSION_CODE_REMOTE
 
       #Speichere Zustand in Cache (von nächstes Build) (?)
       # - save_cache:
