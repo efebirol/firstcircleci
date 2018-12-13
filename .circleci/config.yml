@@ -40,6 +40,7 @@ jobs:
             echo $VERSION_DATE
             echo $APK_PATH
             echo $APP_VERSION_NAME
+            echo $APP_VERSION_CODE
           
       - run:
           name: Gebe die Variablen aus entfernten Circleci aus (gehörten angelegt)
