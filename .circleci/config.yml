@@ -34,7 +34,7 @@ jobs:
 
       - run:
           name: Gradle build mit dem Zweck, Circleci Variablen (aus config.yml) an Gradle weiterreichen 
-          command: ./gradlew
+          command: ./gradlew -PversionDate=$VERSION_DATE_LOCAL -PversionName=$VERSIONNAME_LOCAL -PtestVariable='TestVariableValue' -Pusername=user123 -Ppassword=userpass -PversionCode=$((APP_VERSION_CODE_LOCAL+1)) -PtestVariable='TestVariableValue'
 
           
       - run:
