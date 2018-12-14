@@ -74,7 +74,7 @@ test:
     override:
         #"-P" ist das Gradle system property. CI for Continous Integration (ToDo: Checkout https://github.com/paulbakker/configuration-example/blob/master/cnf/gradle/doc/BUILDING-GRADLE.md)
         # - ./gradlew assembleDebug -PtestVariable='TestVariableValue' -PtestVariable='TestVariableValue' -Pusername=user123 -Ppassword=userpass -PversionCode=$((APP_VERSION_CODE_LOCAL+1)) -PtestVariable='TestVariableValue'
-        - ./gradlew printSystem -PversionName=$VERSIONNAME_LOCAL -PtestVariable='TestVariableValue' -Pusername=user123 -Ppassword=userpass -PversionCode=$((APP_VERSION_CODE_LOCAL+1)) -PtestVariable='TestVariableValue'
+        - ./gradlew assembleDebug -PversionDate=$VERSION_DATE_LOCAL -PversionName=$VERSIONNAME_LOCAL -PtestVariable='TestVariableValue' -Pusername=user123 -Ppassword=userpass -PversionCode=$((APP_VERSION_CODE_LOCAL+1)) -PtestVariable='TestVariableValue'
         
         # kopiere es in einen anderen gewünschten Pfad
         # - cp -r app/build/outputs $CIRCLE_ARTIFACTS
