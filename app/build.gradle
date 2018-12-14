@@ -48,7 +48,6 @@ task updateProjectInfo{
     
     //Über Gradle Argument die Variablen weitergeben (.yml (Konfigdatei) -> .gradle (Builddatei) )
     //Paramter (-P) <variablenName> über geben über Konsolebefehl (z. B. ./gradlew assembleDebug -PversionDate='meinWert')
-    println("-- build.gradle - versionName: "+versionName)
     if(project.hasProperty("versionName"))
     {
         println("-- build.gradle - versionName: "+versionName)
