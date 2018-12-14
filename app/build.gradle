@@ -14,30 +14,15 @@ apply plugin: 'realm-android'
 // println("-- build.gradle - Alle Properties des Projektes: \n"+project.properties)
 
 //".ext" nötig, damit der Scope auch über das Gradle hinaus (z. B. Docker (?) ) verfügbar ist
-// project.ext{
-//     versionName = "9.9"
-//     versionCode = "5"
-// }
+project.ext{
+    versionName = "9.9"
+    versionCode = "5"
+}
 
 //nach dem Builden wird "updateProjectInfo" ausgeführt (holt dann erst die Parameter)
-// project.afterEvaluate{
-//     preBuild.dependsOn updateProjectInfo
-// }
-
-
-// task myTask << {
-//     println ("-- build.gradle - myTask()");
-//     doLast() {
-//         println "-- build.gradle - myTask() - Ganze am Ende ausgeführt"
-//     }
-// }
-
-// "<<" wird als letztes ausgeführt
-// task runMyTask << {
-//     println 'Creating myTask'
-// }
-
-// myTask.dependsOn runMyTask
+project.afterEvaluate{
+    preBuild.dependsOn updateProjectInfo
+}
 
 
 
@@ -65,7 +50,7 @@ task updateProjectInfo{
 
     if(project.hasProperty("versionCode"))
     {
-        println("-- build.gradle - version Code: "+versionCode)
+        println("-- build.gradle - versionCode: "+versionCode)
     }
     else{
         println("-- build.gradle - KEINE versionCode gefunden")
@@ -86,9 +71,6 @@ task updateProjectInfo{
         println("-- build.gradle - KEINE testVariable gefunden")
     }
 }
-
-
-project
 
 android 
 {
@@ -111,3 +93,6 @@ dependencies {
     implementation 'com.android.support:support-annotations:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
 }
+
+//nach dem build sollte der Task gesäubert werden 
+clean.dependsOn updateProjectInfo
